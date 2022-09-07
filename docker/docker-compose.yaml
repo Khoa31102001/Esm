@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  db:
+    image: mysql:latest
+    ports:
+      - 3306:3306
+    volumes:
+      - mysqldata:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
+      MYSQL_DATABASE: esm_stdio
+      MYSQL_PASSWORD: null
+  be:
+    depends_on:
+    - db
+    image: esm-app
+    ports:
+      - 8009:80
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/esm_stdio
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD:
+volumes:
+  mysqldata:
